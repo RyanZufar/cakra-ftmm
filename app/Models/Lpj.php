@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lpj extends Model
 {
+<<<<<<< HEAD
     use HasFactory;
 
     /**
@@ -21,6 +22,9 @@ class Lpj extends Model
      *
      * @var string
      */
+=======
+    protected $table = 'lpj';
+>>>>>>> 29d3f75 (semua)
     protected $primaryKey = 'lpj_id';
 
     /**
