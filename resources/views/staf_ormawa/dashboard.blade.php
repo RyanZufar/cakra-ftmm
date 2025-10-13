@@ -41,7 +41,6 @@
         .btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 15px; border: none; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
         .btn-primary { background: var(--primary); color: white; }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-        /* Tombol link GDocs */
         .btn-gdocs { background: rgba(7,55,99,.2); color: #9ADCFF; border: 1px solid rgba(116,24,71,.25); }
         .btn-gdocs .material-icons { font-size: 18px; }
     </style>
@@ -149,7 +148,7 @@
                             <th>PENGAJU</th>
                             <th>TANGGAL LAPOR LPJ</th>
                             <th>STATUS</th>
-                            <th>GDocs</th>  <!-- kolom baru -->
+                            <th>GDocs</th>
                             <th>AKSI</th>
                         </tr>
                     </thead>

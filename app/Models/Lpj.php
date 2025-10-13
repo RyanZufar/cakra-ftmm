@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Lpj extends Model
 {
     use HasFactory;
-
     protected $table = 'lpj';
     protected $primaryKey = 'lpj_id';
-
     protected $fillable = [
         'pengajuan_id',
         'tanggal_lapor',
@@ -20,24 +18,17 @@ class Lpj extends Model
         'komentar',
         'link_gdocs',
     ];
-
     protected $casts = [
         'pengajuan_id'    => 'integer',
         'total_realisasi' => 'decimal:2',
         'tanggal_lapor'   => 'datetime',
     ];
 
-    /**
-     * LPJ milik pengajuan tertentu.
-     */
     public function pengajuan()
     {
         return $this->belongsTo(Pengajuan::class, 'pengajuan_id', 'pengajuan_id');
     }
 
-    /**
-     * Item-item (nota) LPJ.
-     */
     public function itemsLpj()
     {
     return $this->hasMany(ItemLpj::class, 'lpj_id', 'lpj_id');

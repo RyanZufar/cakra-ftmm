@@ -18,7 +18,9 @@ class ItemLpj extends Model
         'harga_realisasi',
         'path_foto_nota',
     ];
-    public function lpj() {
+
+    public function lpj()
+    {
         return $this->belongsTo(Lpj::class, 'lpj_id', 'lpj_id');
     }
 }

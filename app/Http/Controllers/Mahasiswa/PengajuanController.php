@@ -40,6 +40,7 @@ class PengajuanController extends Controller
 
         return view('mahasiswa.dashboard', compact('user', 'pengajuanBerjalan', 'notifikasiRevisi'));
     }
+
     public function index()
     {
         $pengajuans = Pengajuan::with(['user', 'ormawa', 'status'])
@@ -108,6 +109,7 @@ class PengajuanController extends Controller
 
         return redirect()->route('mahasiswa.pengajuan.index')->with('success', 'Pengajuan berhasil dibuat dan sedang dalam proses screening!');
     }
+
     public function show(Pengajuan $pengajuan)
     {
         if ($pengajuan->ormawa_id !== Auth::user()->ormawa_id) {
@@ -117,6 +119,7 @@ class PengajuanController extends Controller
         $pengajuan->load(['user', 'ormawa', 'status', 'itemsRab']);
         return view('mahasiswa.pengajuan.show', compact('pengajuan'));
     }
+
     public function edit(Pengajuan $pengajuan)
     {
         if ($pengajuan->user_id !== Auth::id()) {
@@ -131,6 +134,7 @@ class PengajuanController extends Controller
 
         return view('mahasiswa.pengajuan.edit', compact('pengajuan', 'ormawas', 'jenisSurats'));
     }
+    
     public function update(Request $request, Pengajuan $pengajuan)
     {
         if ($pengajuan->user_id !== Auth::id()) {
@@ -142,7 +146,6 @@ class PengajuanController extends Controller
             'judul_kegiatan' => 'required|string|max:255',
             'link_dokumen' => 'required|url',
             'items' => 'required|array|min:1',
-            // ... (validasi item sama seperti store)
         ]);
  
         $totalRab = 0;
@@ -150,12 +153,10 @@ class PengajuanController extends Controller
             $totalRab += $item['jumlah'] * $item['harga_satuan'];
         }
         
-        // Status baru setelah direvisi, kembali ke 'Screening Ormawa'
         $statusBaru = Status::where('nama_status', 'Screening Ormawa')->first();
 
         DB::beginTransaction();
         try {
-            // Update data utama pengajuan
             $pengajuan->ormawa_id = $request->ormawa_id;
             $pengajuan->jenis_surat_id = $request->jenis_surat_id;
             $pengajuan->judul_kegiatan = $request->judul_kegiatan;
@@ -164,7 +165,6 @@ class PengajuanController extends Controller
             $pengajuan->current_status_id = $statusBaru->status_id;
             $pengajuan->save();
 
-            // Hapus item RAB lama dan buat ulang dengan yang baru
             $pengajuan->itemsRab()->delete();
             foreach ($request->items as $itemData) {
                 ItemRab::create([
@@ -176,7 +176,6 @@ class PengajuanController extends Controller
                 ]);
             }
 
-            // Simpan histori status baru
             HistoriStatus::create([
                 'pengajuan_id' => $pengajuan->pengajuan_id,
                 'status_id' => $statusBaru->status_id,
@@ -188,7 +187,6 @@ class PengajuanController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            // return back()->with('error', 'Gagal menyimpan perubahan: ' . $e->getMessage());
             dd($e);
         }
 
@@ -196,4 +194,3 @@ class PengajuanController extends Controller
         $pengajuan->load(['user', 'ormawa', 'status', 'jenisSurat', 'itemsRab', 'historiStatus.status', 'historiStatus.user']);
     }
 }
-

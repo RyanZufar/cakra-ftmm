@@ -6,20 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('lpj', function (Blueprint $table) {
-            // TAMBAHKAN BARIS DI BAWAH INI
             $table->text('komentar')->nullable()->after('status_lpj');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('lpj', function (Blueprint $table) {

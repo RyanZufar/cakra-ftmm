@@ -9,53 +9,231 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --primary: #073763; --accent: #741847; --bg-dark: #0A192F;
-            --text-dark: #E0E6F1; --subtext-dark: #94A3B8; --success: #28a745; --danger: #dc3545;
+            --primary: #073763;
+            --accent: #741847;
+            --bg-dark: #0A192F;
+            --text-dark: #E0E6F1;
+            --subtext-dark: #94A3B8;
+            --success: #28a745;
+            --danger: #dc3545;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-dark); display: flex; }
-
-        .sidebar { width: 250px; background: rgba(7, 55, 99, 0.1); backdrop-filter: blur(10px); border-right: 1px solid rgba(116, 24, 71, 0.2); padding: 20px 0; height: 100vh; position: fixed; z-index: 1056; }
-        .logo { padding: 0 20px 20px; border-bottom: 1px solid rgba(116, 24, 71, 0.2); margin-bottom: 20px; }
-        .logo h1 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-item { padding: 12px 20px; display: flex; align-items: center; color: var(--subtext-dark); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; }
-        .nav-item:hover, .nav-item.active { background: linear-gradient(90deg, rgba(7, 55, 99, 0.2), rgba(116, 24, 71, 0.1)); color: var(--text-dark); border-left-color: var(--accent); }
-        .nav-item .material-icons { margin-right: 10px; font-size: 20px; }
-        .main-content { flex: 1; margin-left: 250px; padding: 30px; }
-
-        .page-header { margin-bottom: 30px; }
-        .page-title { font-size: 1.8rem; font-weight: 700; }
-        .page-subtitle { color: var(--subtext-dark); }
-        .card { background: rgba(7, 55, 99, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(116, 24, 71, 0.2); border-radius: 12px; padding: 20px; height: 100%; }
-        .form-title { color: var(--text-dark); font-size: 1.3rem; font-weight: 600; display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
-        .table-container { overflow-x: auto; }
         
-        /* ================================================= */
-        /* ==> PERBAIKAN 1: Teks Tabel & Total Menjadi Terang <== */
-        .form-table { width: 100%; border-collapse: collapse; color: var(--text-dark) !important; /* Tambahkan ini */ }
-        .form-table th, .form-table td { padding: 12px 15px; border-bottom: 1px solid rgba(116, 24, 71, 0.1); text-align: left; vertical-align: middle; }
-        .form-table thead th { background: rgba(7, 55, 99, 0.2); }
-        tfoot td { font-weight: bold; border-bottom: none !important; }
-        /* ================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            display: flex;
+        }
 
-        textarea.form-control { width: 100%; background: rgba(7, 55, 99, 0.2); border: 1px solid rgba(116, 24, 71, 0.2); border-radius: 8px; padding: 12px; color: var(--text-dark); font-family: 'Poppins', sans-serif; }
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; gap: 8px; flex: 1; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-link { background: none; border: none; color: var(--accent); padding: 0; cursor: pointer; text-decoration: underline; font-weight: 500; font-size: 0.9rem; }
+        .sidebar {
+            width: 250px;
+            background: rgba(7, 55, 99, 0.1);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(116, 24, 71, 0.2);
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            z-index: 1056;
+        }
         
-        .modal-content { background: var(--bg-dark); border: 1px solid rgba(116, 24, 71, 0.3); color: var(--text-dark); }
-        .modal-header { border-bottom: 1px solid rgba(116, 24, 71, 0.2); }
-        .modal-body img { max-height: 70vh; width: 100%; object-fit: contain; }
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(116, 24, 71, 0.2);
+            margin-bottom: 20px;
+        }
         
-        .grid { display: grid; }
-        .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .gap-6 { gap: 1.5rem; }
-        .mt-6 { margin-top: 1.5rem; }
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-        .d-flex { display: flex; }
-        .gap-4 { gap: 1rem; }
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: var(--subtext-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(90deg, rgba(7, 55, 99, 0.2), rgba(116, 24, 71, 0.1));
+            color: var(--text-dark);
+            border-left-color: var(--accent);
+        }
+        
+        .nav-item .material-icons {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .page-subtitle {
+            color: var(--subtext-dark);
+        }
+        
+        .card {
+            background: rgba(7, 55, 99, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(116, 24, 71, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            height: 100%;
+        }
+        
+        .form-title {
+            color: var(--text-dark);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--text-dark) !important;
+        }
+        
+        .form-table th, .form-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(116, 24, 71, 0.1);
+            text-align: left;
+            vertical-align: middle;
+        }
+        
+        .form-table thead th {
+            background: rgba(7, 55, 99, 0.2);
+        }
+        
+        tfoot td {
+            font-weight: bold;
+            border-bottom: none !important;
+        }
+
+        textarea.form-control {
+            width: 100%;
+            background: rgba(7, 55, 99, 0.2);
+            border: 1px solid rgba(116, 24, 71, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            gap: 8px;
+            flex: 1;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-link {
+            background: none;
+            border: none;
+            color: var(--accent);
+            padding: 0;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .modal-content {
+            background: var(--bg-dark);
+            border: 1px solid rgba(116, 24, 71, 0.3);
+            color: var(--text-dark);
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid rgba(116, 24, 71, 0.2);
+        }
+        
+        .modal-body img {
+            max-height: 70vh;
+            width: 100%;
+            object-fit: contain;
+        }
+        
+        .grid {
+            display: grid;
+        }
+        
+        .lg\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        
+        .gap-6 {
+            gap: 1.5rem;
+        }
+        
+        .mt-6 {
+            margin-top: 1.5rem;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .d-flex {
+            display: flex;
+        }
+        
+        .gap-4 {
+            gap: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -219,7 +397,7 @@
             
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href') === currentPath || 
+                if (link.getAttribute('href') === currentPath ||
                     (currentPath.includes('lpi_show') && link.getAttribute('href').includes('lpi_show'))) {
                     link.classList.add('active');
                 }

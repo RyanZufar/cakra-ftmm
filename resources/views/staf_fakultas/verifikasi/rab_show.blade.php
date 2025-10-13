@@ -70,9 +70,9 @@
         justify-content: flex-end;
         gap: 15px;
     }
-    .btn { 
+    .btn {
         display: inline-flex; align-items: center; padding: 10px 20px;
-        border: none; border-radius: 8px; font-weight: 600; cursor: pointer; 
+        border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
         transition: all 0.3s ease; text-decoration: none; font-size: 0.9rem;
     }
     .btn .material-icons { margin-right: 8px; }
