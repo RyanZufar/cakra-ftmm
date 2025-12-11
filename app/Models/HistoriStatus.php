@@ -33,4 +33,9 @@ class HistoriStatus extends Model
     {
         return $this->belongsTo(User::class, 'diubah_oleh_user_id', 'user_id');
     }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'diubah_oleh_user_id', 'user_id');
+    }
 }

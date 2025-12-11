@@ -517,7 +517,6 @@
             <h1 class="form-title">Buat Pengajuan Baru</h1>
             <p class="form-subtitle">Ajukan proposal kegiatan atau reimbursement untuk organisasi Anda</p>
 
-            {{-- Menampilkan pesan error validasi jika ada --}}
             @if ($errors->any())
                 <div class="card bg-red-500/20 text-red-400 mb-4 p-4">
                     <p class="font-bold mb-2">Terjadi kesalahan:</p>
@@ -529,7 +528,6 @@
                 </div>
             @endif
 
-            {{-- TAMBAHKAN BLOK INI untuk menampilkan pesan error dari controller --}}
             @if (session('error'))
                 <div class="card bg-red-500/20 text-red-400 mb-4 p-4">
                     <p class="font-bold">Terjadi Kesalahan:</p>
@@ -537,17 +535,21 @@
                 </div>
             @endif
 
-            {{-- PERUBAHAN 1: Tag form dihubungkan ke backend --}}
             <form method="POST" action="{{ route('mahasiswa.pengajuan.store') }}" class="space-y-6 card">
                 @csrf
-                <!-- Step 1: ORMAWA + Jenis Surat -->
                 <div class="form-group">
                     <label class="form-label" for="ormawa_id">Pilih ORMAWA</label>
-                    {{-- PERUBAHAN 2: Dropdown diisi dari controller --}}
-                    <select class="form-select" name="ormawa_id" id="ormawa_id" required>
-                        <option value="">-- Pilih ORMAWA --</option>
+                    <select class="form-select" name="ormawa_id" id="ormawa_id" required 
+                        style="background-color: rgba(7, 55, 99, 0.15); color: #E0E6F1; border: 1px solid rgba(116, 24, 71, 0.3);">
+                        
+                        <option value="" disabled selected hidden style="background-color: #0A192F; color: #94A3B8;">
+                            -- Pilih ORMAWA --
+                        </option>
                         @foreach ($ormawas as $ormawa)
-                            <option value="{{ $ormawa->ormawa_id }}" {{ old('ormawa_id') == $ormawa->ormawa_id ? 'selected' : '' }}>
+                            <option value="{{ $ormawa->ormawa_id }}" 
+                                {{ old('ormawa_id') == $ormawa->ormawa_id ? 'selected' : '' }}
+                                style="background-color: #0A192F; color: #E0E6F1;">
+                                
                                 {{ $ormawa->nama_ormawa }}
                             </option>
                         @endforeach
@@ -556,10 +558,17 @@
 
                 <div class="form-group">
                     <label class="form-label" for="jenis_surat_id">Jenis Surat</label>
-                    <select class="form-select" name="jenis_surat_id" id="jenis_surat_id" required>
-                        <option value="">-- Pilih Jenis Surat --</option>
+                    <select class="form-select" name="jenis_surat_id" id="jenis_surat_id" required
+                        style="background-color: rgba(7, 55, 99, 0.15); color: #E0E6F1; border: 1px solid rgba(116, 24, 71, 0.3);">
+                        
+                        <option value="" disabled selected hidden style="background-color: #0A192F; color: #94A3B8;">
+                            -- Pilih Jenis Surat --
+                        </option>
                         @foreach ($jenisSurats as $jenis)
-                            <option value="{{ $jenis->jenis_surat_id }}" {{ old('jenis_surat_id') == $jenis->jenis_surat_id ? 'selected' : '' }}>
+                            <option value="{{ $jenis->jenis_surat_id }}" 
+                                {{ old('jenis_surat_id') == $jenis->jenis_surat_id ? 'selected' : '' }}
+                                style="background-color: #0A192F; color: #E0E6F1;">
+                                
                                 {{ $jenis->nama_jenis }}
                             </option>
                         @endforeach

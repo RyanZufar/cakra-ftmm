@@ -8,13 +8,9 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    use HasFactory, Notifiable;
     protected $primaryKey = 'user_id';
-    protected $fillable = ['name', 'email', 'password_hash', 'role_id', 'ormawa_id'];
-
-    public function getAuthPassword()
-    {
-        return $this->password_hash;
-    }
+    protected $fillable = ['name', 'email', 'password', 'role_id', 'ormawa_id'];
 
     public function role()
     {

@@ -101,7 +101,6 @@ class VerifikasiController extends Controller
         ]);
 
         DB::transaction(function () use ($lpj) {
-            // 1) LPJ final → Disetujui
             $lpj->status_lpj = 'Disetujui';
             $lpj->komentar   = null;
             $lpj->save();

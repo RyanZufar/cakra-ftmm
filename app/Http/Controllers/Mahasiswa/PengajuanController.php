@@ -61,8 +61,10 @@ class PengajuanController extends Controller
     public function store(Request $request)
     {
         $totalRab = 0;
-        foreach ($request->items as $item) {
-            $totalRab += $item['jumlah'] * $item['harga_satuan'];
+        if ($request->has('items')) {
+            foreach ($request->items as $item) {
+                $totalRab += $item['jumlah'] * $item['harga_satuan'];
+            }
         }
         
         $statusAwal = Status::where('nama_status', 'Screening Ormawa')->first();
@@ -83,14 +85,16 @@ class PengajuanController extends Controller
             $pengajuan->current_status_id = $statusAwal->status_id;
             $pengajuan->save();
 
-            foreach ($request->items as $itemData) {
-                $itemRab = new ItemRab();
-                $itemRab->pengajuan_id = $pengajuan->pengajuan_id;
-                $itemRab->nama_item = $itemData['nama_item'];
-                $itemRab->jumlah = $itemData['jumlah'];
-                $itemRab->satuan = $itemData['satuan'];
-                $itemRab->harga_satuan = $itemData['harga_satuan'];
-                $itemRab->save();
+            if ($request->has('items')) {
+                foreach ($request->items as $itemData) {
+                    $itemRab = new ItemRab();
+                    $itemRab->pengajuan_id = $pengajuan->pengajuan_id;
+                    $itemRab->nama_item = $itemData['nama_item'];
+                    $itemRab->jumlah = $itemData['jumlah'];
+                    $itemRab->satuan = $itemData['satuan'];
+                    $itemRab->harga_satuan = $itemData['harga_satuan'];
+                    $itemRab->save();
+                }
             }
 
             $histori = new HistoriStatus();
@@ -112,21 +116,23 @@ class PengajuanController extends Controller
 
     public function show(Pengajuan $pengajuan)
     {
-        if ($pengajuan->ormawa_id !== Auth::user()->ormawa_id) {
-            abort(403, 'AKSES DITOLAK');
+        if ($pengajuan->user_id !== Auth::id()) {
+            abort(403, 'AKSES DITOLAK: Anda tidak memiliki akses ke pengajuan ini.');
         }
 
-        $pengajuan->load(['user', 'ormawa', 'status', 'itemsRab']);
+        $pengajuan->load(['user', 'ormawa', 'status', 'itemsRab', 'historiStatus.status', 'historiStatus.user']);
         return view('mahasiswa.pengajuan.show', compact('pengajuan'));
     }
 
     public function edit(Pengajuan $pengajuan)
     {
         if ($pengajuan->user_id !== Auth::id()) {
-            abort(403);
+            abort(403, 'AKSES DITOLAK');
         }
+
         if ($pengajuan->status->nama_status !== 'Revisi') {
-            return redirect()->route('mahasiswa.pengajuan.show', $pengajuan->pengajuan_id)->with('error', 'Pengajuan ini tidak dapat diedit.');
+            return redirect()->route('mahasiswa.pengajuan.show', $pengajuan->pengajuan_id)
+                ->with('error', 'Pengajuan ini tidak dapat diedit karena statusnya bukan Revisi.');
         }
 
         $ormawas = Ormawa::all();
@@ -140,12 +146,17 @@ class PengajuanController extends Controller
         if ($pengajuan->user_id !== Auth::id()) {
             abort(403);
         }
+
         $request->validate([
             'ormawa_id' => 'required|exists:ormawa,ormawa_id',
             'jenis_surat_id' => 'required|exists:jenis_surat,jenis_surat_id',
             'judul_kegiatan' => 'required|string|max:255',
             'link_dokumen' => 'required|url',
             'items' => 'required|array|min:1',
+            'items.*.nama_item' => 'required|string',
+            'items.*.jumlah' => 'required|numeric|min:1',
+            'items.*.satuan' => 'required|string',
+            'items.*.harga_satuan' => 'required|numeric|min:0',
         ]);
  
         $totalRab = 0;
@@ -187,10 +198,9 @@ class PengajuanController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
+            return back()->with('error', 'Gagal update: ' . $e->getMessage());
         }
 
         return redirect()->route('mahasiswa.pengajuan.show', $pengajuan->pengajuan_id)->with('success', 'Pengajuan berhasil diperbarui!');
-        $pengajuan->load(['user', 'ormawa', 'status', 'jenisSurat', 'itemsRab', 'historiStatus.status', 'historiStatus.user']);
     }
 }

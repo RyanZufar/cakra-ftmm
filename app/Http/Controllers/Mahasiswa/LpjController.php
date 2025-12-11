@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
-
 class LpjController extends Controller
 {
     public function update(Request $request, Lpj $lpj)
@@ -151,7 +150,6 @@ class LpjController extends Controller
 
     public function create(Pengajuan $pengajuan)
     {
-        // Pastikan user yang mengakses adalah pemilik pengajuan
         if ($pengajuan->user_id !== Auth::id()) {
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
         }

@@ -544,7 +544,13 @@
                             </tr>
                             @endforeach
                         </tbody>
-                         {{-- ... (tfoot tidak berubah) ... --}}
+                         <tfoot>
+                            <tr>
+                                <td colspan="4" style="text-align: right; font-weight: bold; padding-right: 15px; border-top: 2px solid rgba(116, 24, 71, 0.3);">Total:</td>
+                                <td id="grandTotal" style="font-weight: bold; color: #741847; border-top: 2px solid rgba(116, 24, 71, 0.3); white-space: nowrap;">Rp 0</td>
+                                <td style="border-top: 2px solid rgba(116, 24, 71, 0.3);"></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <button type="button" onclick="tambahBaris()" class="btn btn-outline mt-3">Tambah Item</button>
@@ -558,7 +564,7 @@
     </div>
 
     <script>
-        let rowIndex = 1;
+        let rowIndex = {{ count(old('items', $pengajuan->itemsRab)) }};
         
         document.addEventListener('DOMContentLoaded', function() {
             // ... (Kode toggle sidebar Anda)
